@@ -1,9 +1,17 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+import tkinter as tk
+#from ttk import *
 import hashlib
 import random
 import urllib.parse
 import requests
 from concurrent import futures
 from io import StringIO
+
+from tkinter import filedialog
+import re
+import os
 
 from pdfminer.pdfinterp import PDFResourceManager
 from pdfminer.pdfinterp import process_pdf
@@ -84,8 +92,25 @@ def _main(pdf_path, txt_path):
     # except Exception:
     #     return -1
 
+def getFile():
+    filename = tk.filedialog.askopenfilename(filetypes=[('PDF', 'pdf')])
+    txtname = filename[1:-3] + 'txt'
+    _main(filename, 'G:\\mycode\\translation\\1.txt')
 
-if __name__ == '__main__':
-    appid = 20181128000240769   #填入你的 appid ，为int类型
-    key = 'XBGQH_QXpl1PACYIivr3'      #填入你的 key ，为str类型
-    _main('G:\\mycode\\translation\\1.pdf', 'G:\\mycode\\translation\\1.txt')  #填入 pdf 路径与翻译完毕之后的 txt 路径
+
+root = tk.Tk()
+root.wm_title("pdf自动翻译器V1.0")#主界面名字
+root.geometry('1000x600+100+50')
+root.resizable(width=0, height=0)
+appid = 20181128000240769   #填入你的 appid ，为int类型
+key = 'XBGQH_QXpl1PACYIivr3'      #填入你的 key ，为str类型
+#_main('G:\\mycode\\translation\\1.pdf', 'G:\\mycode\\translation\\1.txt')  #填入 pdf 路径与翻译完毕之后的 txt 路径
+menubar = tk.Menu(root)
+filemenu = tk.Menu(menubar, tearoff=0)
+filemenu.add_command(label="打开", command=getFile)
+filemenu.add_separator()
+filemenu.add_command(label="退出", command=root.quit)
+menubar.add_cascade(label="文件", menu=filemenu)
+root['menu'] = menubar
+
+root.mainloop()
