@@ -2,13 +2,14 @@
 # -*- coding: UTF-8 -*-
 import tkinter as tk
 #from ttk import *
+#from ttk import *
 import hashlib
 import random
 import urllib.parse
 import requests
 from concurrent import futures
 from io import StringIO
-
+import tkMessageBox
 from tkinter import filedialog
 import re
 import os
@@ -18,6 +19,8 @@ from pdfminer.pdfinterp import process_pdf
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 
+def autherInf():
+    tk.tkMessageBox.showinfo("作者信息", "作者：符克斯\r邮箱:704508652@qq.com")
 
 def read_from_pdf(file_path):
     '''
@@ -94,8 +97,9 @@ def _main(pdf_path, txt_path):
 
 def getFile():
     filename = tk.filedialog.askopenfilename(filetypes=[('PDF', 'pdf')])
-    txtname = filename[1:-3] + 'txt'
-    _main(filename, 'G:\\mycode\\translation\\1.txt')
+    if filename != "":
+        txtname = filename[1:-3] + 'txt'
+        _main(filename, txtname)
 
 
 root = tk.Tk()
@@ -112,5 +116,8 @@ filemenu.add_separator()
 filemenu.add_command(label="退出", command=root.quit)
 menubar.add_cascade(label="文件", menu=filemenu)
 root['menu'] = menubar
-
+messagemenu = tk.Menu(menubar, tearoff=0)
+messagemenu.add_command(label="说明")
+messagemenu.add_command(label="作者", command=autherInf)
+menubar.add_cascade(label="信息", menu=messagemenu)
 root.mainloop()
